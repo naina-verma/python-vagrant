@@ -19,7 +19,7 @@ import re
 import subprocess
 import sys
 import logging
-
+import pexpect
 # local
 from . import compat
 

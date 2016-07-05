@@ -298,7 +298,23 @@ class Vagrant(object):
         Note: if box_url is given, box_name should also be given.
         '''
         self._call_vagrant_command(['init', box_name, box_url])
-
+    def vagrantUp(self, path,username,password):
+        os.chdir(path)
+        paramerters = pexpect.spawn("vagrant up --provider "+self.params.get('vagrant_PROVIDER'))
+        paramerters.expect('.*Would you like to register the system now.*', timeout=250)
+        paramerters.sendline("y")
+        paramerters.expect(".*username.*")
+        paramerters.sendline(username)
+        
+        paramerters.expect(".*password.*")
+        paramerters.sendline(password)
+    
+        paramerters.interact()
+        paramerters.close()
+        time.sleep(20)
+        
+        
+        
     def up(self, no_provision=False, provider=None, vm_name=None,
            provision=None, provision_with=None):
         '''
